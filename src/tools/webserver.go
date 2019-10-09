@@ -41,9 +41,9 @@ func RunWebServer(demoPath string, addr string, repo string) (*WS) {
 	}
 
 	if string(demoPath[len(demoPath)-1]) != slash {
-		path = fmt.Sprintf("%s%s%s", demoPath, slash, "csgo/")
+		path = fmt.Sprintf("%s%s%s%s", demoPath, slash, "csgo", slash)
 	} else {
-		path = fmt.Sprintf("%s%s", demoPath, "csgo/")
+		path = fmt.Sprintf("%s%s%s", demoPath, "csgo", slash)
 	}
 
 	if _, err := os.Stat(path); os.IsNotExist(err) {
