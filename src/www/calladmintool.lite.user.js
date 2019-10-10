@@ -44,10 +44,22 @@
 		 *******************/
 
 		// Preset elements
-		const $downloadDiv = $('body > main > div.row.border').find('div:eq(0) > div:eq(1) > div:eq(1) > div:eq(1)'),
-			_middle = $('body > main > div.row.border').find('div:eq(0) > div:eq(1) > div:eq(0)'),
-			$steamTags = _middle.find('pre'),
-			$serverTags = _middle.find('code:eq(1)');
+		const _base = $('body > main > div.row.border').find('div:eq(0) > div:eq(1) > div:eq(0)'),
+			$downloadDiv = _base.find('> div:eq(1) > div.btn-group'),
+			$steamTags = _base.find('pre'),
+			$serverTags = _base.find('code:eq(1)'),
+			$reportsID =  _base.find('> div:eq(1) > p > a');
+
+		// Report ID
+		if ($reportsID.length > 0) {
+			$reportsID.each(async (i, v) => {
+				const regID = /([0-9]*)\/?$/g,
+					reportID = regID.exec( $(v).attr('href'))[1],
+					$reportIDCopy = RES.$btn_eLinkCopy({href: `javascript:CopyText('`+reportID+`');`});
+
+				$reportIDCopy.insertAfter( $(v) )
+			});
+		}
 
 		// ServerTag
 		if ($serverTags.length > 0) {
@@ -70,9 +82,6 @@
 
 				$(steam).append($copy).append($link);
 
-				$copy.on('click', () => {
-				});
-
 			});
 		}
 
@@ -82,10 +91,10 @@
 			$downloadDiv.each(async (i, downloadBtn) => {
 				const $btnGroup = EL.btn.Download.factory(),
 					$btn = $btnGroup.find('a'),
-					$demoLinkBtn = $(downloadBtn).find('> a'),
+					$demoLinkBtn = $(downloadBtn).find('a:first-child'),
 					demoLink = $demoLinkBtn.attr('href');
 
-				$(downloadBtn).append($btnGroup);
+				$btnGroup.insertAfter($demoLinkBtn);
 
 				//
 				const demoReady = (fire) => {
@@ -274,19 +283,19 @@ const RES = {
 	$icon: (data) => {
 		return $('<i/>', $.extend({}, data) ); },
 	$icon_Download: (data) => {
-		return RES.$icon($.extend({class: 'fa fa-cloud-download-alt'}, data)); },
+		return RES.$icon($.extend({class: 'fas fa-cloud-download-alt'}, data)); },
 	$icon_Spinner: (data) => {
 		return RES.$icon($.extend({class: 'sr-only'}, data)); },
 	$icon_Play: (data) => {
 		return RES.$icon($.extend({class: 'fa fa-play'}, data)); },
 	$icon_Copy: (data) => {
-		return RES.$icon($.extend({class: 'fa fa-copy'}, data)); },
+		return RES.$icon($.extend({class: 'fas fa-copy'}, data)); },
 	$icon_Check: (data) => {
 		return RES.$icon($.extend({class: 'fa fa-check'}, data)); },
 	$icon_Error: (data) => {
 		return RES.$icon($.extend({class: 'fa fa-exclamation-triangle'}, data)); },
 	$icon_eLink: (data) => {
-		return RES.$icon($.extend({class: 'fa fa-external-link-alt ml-1'}, data)); },
+		return RES.$icon($.extend({class: 'fas fa-external-link-alt ml-1'}, data)); },
 
 	// El
 	$el_P: (data) => {
